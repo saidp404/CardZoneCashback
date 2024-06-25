@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ApplicationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-06-12T08:46:31" hostname="Saids-MacBook-Pro.local" time="0.011">
+  <properties/>
+  <testcase name="Testing the tests" classname="ApplicationTest" time="0.011"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
