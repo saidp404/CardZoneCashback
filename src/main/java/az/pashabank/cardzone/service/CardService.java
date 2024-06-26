@@ -6,7 +6,7 @@ import az.pashabank.cardzone.model.dto.CardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,11 +21,12 @@ public class CardService {
 
     // todo: add exception: card not found 404
     public CardDto findById(Long id) {
-        return cardRepository.findById(id).map(cardMapper::cardToCardDTO).orElse(null);
+        return cardMapper.cardEntityToCardDto(cardRepository.findById(id).orElse(null));
     }
 
     public void create(CardDto cardDto) {
-        var card = cardMapper.cardDTOToCard(cardDto);
+        var card = cardMapper.cardDtoToCardEntity(cardDto);
+        card.setCreatedAt(LocalDateTime.now());
         cardRepository.save(card);
     }
 

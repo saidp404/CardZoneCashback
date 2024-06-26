@@ -8,6 +8,8 @@ import az.pashabank.cardzone.model.dto.TransactionDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class TransactionService {
@@ -16,9 +18,9 @@ public class TransactionService {
     private final CardRepository cardRepository;
 
     public void create(TransactionDto transactionDto, Long cardId){
-        // todo: fix transactions and card relation
         CardEntity cardEntity = cardRepository.findById(cardId).orElseThrow();
-        var transaction = transactionMapper.transactionDTOToTransaction(transactionDto, cardEntity);
+        var transaction = transactionMapper.transactionDtoToTransactionEntity(transactionDto, cardEntity);
+        transaction.setCreatedAt(LocalDateTime.now());
 
         transactionRepository.save(transaction);
         changeCurrentBalance(transactionDto, cardEntity);

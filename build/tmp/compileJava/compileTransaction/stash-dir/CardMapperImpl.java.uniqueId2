@@ -1,6 +1,7 @@
 package az.pashabank.cardzone.mapper;
 
 import az.pashabank.cardzone.dao.entity.CardEntity;
+import az.pashabank.cardzone.dao.entity.TransactionEntity;
 import az.pashabank.cardzone.model.dto.CardDto;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,14 +11,14 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-26T18:57:29+0400",
+    date = "2024-06-26T18:06:42+0400",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.10 (Oracle Corporation)"
 )
 @Component
 public class CardMapperImpl implements CardMapper {
 
     @Override
-    public CardDto cardEntityToCardDto(CardEntity cardEntity) {
+    public CardDto cardToCardDTO(CardEntity cardEntity) {
         if ( cardEntity == null ) {
             return null;
         }
@@ -25,12 +26,17 @@ public class CardMapperImpl implements CardMapper {
         String pan = null;
         Long customerId = null;
         BigDecimal balance = null;
+        List<TransactionEntity> transactionEntities = null;
 
         pan = cardEntity.getPan();
         customerId = cardEntity.getCustomerId();
         balance = cardEntity.getBalance();
+        List<TransactionEntity> list = cardEntity.getTransactionEntities();
+        if ( list != null ) {
+            transactionEntities = new ArrayList<TransactionEntity>( list );
+        }
 
-        CardDto cardDto = new CardDto( pan, customerId, balance );
+        CardDto cardDto = new CardDto( pan, customerId, balance, transactionEntities );
 
         return cardDto;
     }
@@ -43,14 +49,14 @@ public class CardMapperImpl implements CardMapper {
 
         List<CardDto> list = new ArrayList<CardDto>( cardEntities.size() );
         for ( CardEntity cardEntity : cardEntities ) {
-            list.add( cardEntityToCardDto( cardEntity ) );
+            list.add( cardToCardDTO( cardEntity ) );
         }
 
         return list;
     }
 
     @Override
-    public CardEntity cardDtoToCardEntity(CardDto cardDto) {
+    public CardEntity cardDTOToCard(CardDto cardDto) {
         if ( cardDto == null ) {
             return null;
         }
@@ -60,6 +66,10 @@ public class CardMapperImpl implements CardMapper {
         cardEntity.setPan( cardDto.pan() );
         cardEntity.setCustomerId( cardDto.customerId() );
         cardEntity.setBalance( cardDto.balance() );
+        List<TransactionEntity> list = cardDto.transactionEntities();
+        if ( list != null ) {
+            cardEntity.setTransactionEntities( new ArrayList<TransactionEntity>( list ) );
+        }
 
         return cardEntity;
     }

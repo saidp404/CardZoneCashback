@@ -27,7 +27,6 @@ public class CardEntity {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // todo: review cascade types
     @OneToMany(mappedBy = "cardEntity", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<TransactionEntity> transactionEntities;

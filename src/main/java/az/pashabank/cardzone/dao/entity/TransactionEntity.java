@@ -17,9 +17,10 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private enum type {
+    public enum Type {
         DEBIT, CREDIT;
     };
+    private Type type;
     private BigDecimal amount;
 
     @ManyToOne

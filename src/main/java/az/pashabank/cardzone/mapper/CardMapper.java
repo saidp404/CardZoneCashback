@@ -8,9 +8,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CardMapper {
-    CardDto cardToCardDTO(CardEntity cardEntity);
+    CardDto cardEntityToCardDto(CardEntity cardEntity);
+
+    CardEntity cardDtoToCardEntity(CardDto cardDto);
 
     List<CardDto> cardEntitiesToCardDtos(List<CardEntity> cardEntities);
-
-    CardEntity cardDTOToCard(CardDto cardDto);
 }

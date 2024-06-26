@@ -8,9 +8,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
-    TransactionDto transactionToTransactionDTO(TransactionEntity transactionEntity);
+    TransactionDto transactionEntityToTransactionDto(TransactionEntity transactionEntity);
 
     @Mapping(target = "cardEntity", source = "cardEntity")
     @Mapping(target = "id", ignore = true)
-    TransactionEntity transactionDTOToTransaction(TransactionDto transactionDTO, CardEntity cardEntity);
+    TransactionEntity transactionDtoToTransactionEntity(TransactionDto transactionDTO, CardEntity cardEntity);
 }
