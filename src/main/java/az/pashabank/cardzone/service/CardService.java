@@ -3,6 +3,7 @@ package az.pashabank.cardzone.service;
 import az.pashabank.cardzone.dao.repository.CardRepository;
 import az.pashabank.cardzone.mapper.CardMapper;
 import az.pashabank.cardzone.model.dto.CardDto;
+import az.pashabank.cardzone.model.exception.NoCardFoundById;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,8 @@ public class CardService {
         return cardMapper.cardEntitiesToCardDtos(cardRepository.findAll());
     }
 
-    // todo: add exception: card not found 404
-    public CardDto findById(Long id) {
-        return cardMapper.cardEntityToCardDto(cardRepository.findById(id).orElse(null));
+    public CardDto findById(Long cardId) throws NoCardFoundById {
+        return cardMapper.cardEntityToCardDto(cardRepository.findById(cardId).orElseThrow(() -> new NoCardFoundById("Card by id:" + cardId + " does not exist.")));
     }
 
     public void create(CardDto cardDto) {
@@ -30,7 +30,12 @@ public class CardService {
         cardRepository.save(card);
     }
 
-    public void deleteById(Long id) {
-        cardRepository.deleteById(id);
+    public void deleteById(Long cardId) throws NoCardFoundById {
+        if (cardRepository.existsById(cardId)){
+            cardRepository.deleteById(cardId);
+        }
+        else{
+            throw new NoCardFoundById("Card by id:" + cardId + " cannot be deleted, as it does not exist.");
+        }
     }
 }

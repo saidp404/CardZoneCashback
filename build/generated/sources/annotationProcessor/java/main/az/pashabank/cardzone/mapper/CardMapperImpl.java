@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-26T18:57:29+0400",
+    date = "2024-06-26T21:04:53+0400",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.10 (Oracle Corporation)"
 )
 @Component
@@ -36,20 +36,6 @@ public class CardMapperImpl implements CardMapper {
     }
 
     @Override
-    public List<CardDto> cardEntitiesToCardDtos(List<CardEntity> cardEntities) {
-        if ( cardEntities == null ) {
-            return null;
-        }
-
-        List<CardDto> list = new ArrayList<CardDto>( cardEntities.size() );
-        for ( CardEntity cardEntity : cardEntities ) {
-            list.add( cardEntityToCardDto( cardEntity ) );
-        }
-
-        return list;
-    }
-
-    @Override
     public CardEntity cardDtoToCardEntity(CardDto cardDto) {
         if ( cardDto == null ) {
             return null;
@@ -62,5 +48,19 @@ public class CardMapperImpl implements CardMapper {
         cardEntity.setBalance( cardDto.balance() );
 
         return cardEntity;
+    }
+
+    @Override
+    public List<CardDto> cardEntitiesToCardDtos(List<CardEntity> cardEntities) {
+        if ( cardEntities == null ) {
+            return null;
+        }
+
+        List<CardDto> list = new ArrayList<CardDto>( cardEntities.size() );
+        for ( CardEntity cardEntity : cardEntities ) {
+            list.add( cardEntityToCardDto( cardEntity ) );
+        }
+
+        return list;
     }
 }
