@@ -1,7 +1,0 @@
-# do not touch this file, create new changelog file(-s)
-databaseChangeLog:
-  - changeSet:
-      id: empty-changeset-1
-      author: Anar Mammad
-      changes: []
-
