@@ -1,6 +1,7 @@
 package az.pashabank.cardzone.controller;
 
-import az.pashabank.cardzone.model.dto.CardDto;
+import az.pashabank.cardzone.model.dto.CreationCardDto;
+import az.pashabank.cardzone.model.dto.ResponseCardDto;
 import az.pashabank.cardzone.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,19 +16,19 @@ public class CardController {
     private final CardService cardService;
 
     @GetMapping
-    public List<CardDto> findAll(){
+    public List<ResponseCardDto> findAll(){
         return cardService.findAll();
     }
 
     @GetMapping("/{cardId}")
-    public CardDto findById(@PathVariable Long cardId) {
+    public ResponseCardDto findById(@PathVariable Long cardId) {
         return cardService.findById(cardId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CardDto cardDto){
-        cardService.create(cardDto.zeroBalance());
+    public void create(@RequestBody CreationCardDto creationCardDto){
+        cardService.create(creationCardDto);
     }
 
     @DeleteMapping("/{cardId}")
