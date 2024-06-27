@@ -8,8 +8,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
-    TransactionDto transactionEntityToTransactionDto(TransactionEntity transactionEntity);
-
     @Mapping(target = "cardEntity", source = "cardEntity")
     @Mapping(target = "id", ignore = true)
     TransactionEntity transactionDtoToTransactionEntity(TransactionDto transactionDTO, CardEntity cardEntity);

@@ -1,11 +1,9 @@
 package az.pashabank.cardzone.controller;
 
 import az.pashabank.cardzone.model.dto.CardDto;
-import az.pashabank.cardzone.model.exception.NoCardFoundByIdException;
 import az.pashabank.cardzone.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,22 +20,19 @@ public class CardController {
     }
 
     @GetMapping("/{cardId}")
-    public CardDto findById(@PathVariable Long cardId) throws NoCardFoundByIdException {
+    public CardDto findById(@PathVariable Long cardId) {
         return cardService.findById(cardId);
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody CardDto cardDto){
         cardService.create(cardDto.zeroBalance());
     }
 
     @DeleteMapping("/{cardId}")
-    public void deleteById(@PathVariable Long cardId) throws NoCardFoundByIdException {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long cardId) {
         cardService.deleteById(cardId);
-    }
-
-    @ExceptionHandler(NoCardFoundByIdException.class)
-    public ResponseEntity<?> handleNoCardFoundById(NoCardFoundByIdException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

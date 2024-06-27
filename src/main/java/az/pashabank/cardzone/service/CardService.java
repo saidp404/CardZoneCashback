@@ -19,7 +19,7 @@ public class CardService {
         return cardMapper.cardEntitiesToCardDtos(cardRepository.findAll());
     }
 
-    public CardDto findById(Long cardId) throws NoCardFoundByIdException {
+    public CardDto findById(Long cardId) {
         return cardMapper.cardEntityToCardDto(cardRepository.findById(cardId).orElseThrow(() -> new NoCardFoundByIdException("Card by id:" + cardId + " does not exist.")));
     }
 
@@ -28,12 +28,9 @@ public class CardService {
         cardRepository.save(card);
     }
 
-    public void deleteById(Long cardId) throws NoCardFoundByIdException {
-        if (cardRepository.existsById(cardId)){
-            cardRepository.deleteById(cardId);
-        }
-        else{
-            throw new NoCardFoundByIdException("Card by id:" + cardId + " cannot be deleted, as it does not exist.");
-        }
+    public void deleteById(Long cardId) {
+        cardRepository
+                .findById(cardId)
+                .ifPresent(card -> cardRepository.deleteById(card.getId()));
     }
 }

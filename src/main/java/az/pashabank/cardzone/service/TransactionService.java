@@ -21,7 +21,7 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final CardRepository cardRepository;
 
-    public void create(TransactionDto transactionDto, Long cardId) throws NoCardFoundByIdException {
+    public void create(TransactionDto transactionDto, Long cardId) {
         CardEntity cardEntity = cardRepository.findById(cardId).orElseThrow(() -> new NoCardFoundByIdException("Transaction cannot be made, as the card with id:" + cardId + " does not exist."));
 
         validateTransaction(transactionDto, cardEntity);
