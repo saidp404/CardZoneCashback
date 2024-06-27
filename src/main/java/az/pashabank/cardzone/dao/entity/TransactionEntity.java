@@ -1,8 +1,10 @@
 package az.pashabank.cardzone.dao.entity;
 
+import az.pashabank.cardzone.model.enumfiles.TransactionType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -17,10 +19,7 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public enum Type {
-        DEBIT, CREDIT;
-    };
-    private Type type;
+    private TransactionType type;
     private BigDecimal amount;
 
     @ManyToOne
@@ -32,5 +31,6 @@ public class TransactionEntity {
     private boolean hasCashback;
 
     @Column(name = "created_at")
+    @CreationTimestamp
     private LocalDateTime createdAt;
 }

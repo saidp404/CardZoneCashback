@@ -3,6 +3,7 @@ package az.pashabank.cardzone.dao.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,6 +26,7 @@ public class CardEntity {
     private BigDecimal balance;
 
     @Column(name = "created_at")
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "cardEntity", cascade = CascadeType.ALL)

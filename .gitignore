@@ -8,8 +8,8 @@
 /dataSources/
 /dataSources.local.xml
 # Gradle
-.gradle
 build/
 gradle/
+src/main/resources/application.yml
 # IntelliJ IDEA
 .idea/
