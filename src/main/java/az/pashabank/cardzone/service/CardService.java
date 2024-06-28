@@ -1,13 +1,11 @@
 package az.pashabank.cardzone.service;
 
-import az.pashabank.cardzone.dao.entity.CardEntity;
 import az.pashabank.cardzone.dao.repository.CardRepository;
 import az.pashabank.cardzone.mapper.CardMapper;
 import az.pashabank.cardzone.model.dto.CreationCardDto;
 import az.pashabank.cardzone.model.dto.ResponseCardDto;
 import az.pashabank.cardzone.model.exception.NoCardFoundByIdException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
