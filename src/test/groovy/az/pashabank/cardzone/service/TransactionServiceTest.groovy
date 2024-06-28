@@ -13,6 +13,7 @@ class TransactionServiceTest extends Specification {
         def transactionService = new TransactionService(transactionMapper, transactionRepository, cardRepository)
     }
 
-    def "Create"() {
+    def "create: should create a new transaction"() {
+
     }
 }

@@ -1,6 +1,7 @@
 package az.pashabank.cardzone.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cards")
 public class CardEntity {

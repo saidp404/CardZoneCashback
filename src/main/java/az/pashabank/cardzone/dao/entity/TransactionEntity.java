@@ -2,6 +2,7 @@ package az.pashabank.cardzone.dao.entity;
 
 import az.pashabank.cardzone.model.enumfiles.TransactionType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "transactions")
 public class TransactionEntity {

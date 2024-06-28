@@ -38,6 +38,8 @@ dependencies {
     testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
     testImplementation 'org.spockframework:spock-spring:2.3-groovy-4.0'
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    testImplementation 'io.github.benas:random-beans:3.9.0'
 }
 
 tasks.named('test') {
