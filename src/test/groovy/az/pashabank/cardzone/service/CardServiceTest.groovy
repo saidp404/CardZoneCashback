@@ -131,6 +131,7 @@ class CardServiceTest extends Specification {
         then:
         1 * cardMapper.responseCardDtoToCardEntity(responseCardDto) >> cardEntity
         1 * cardRepository.save(cardEntity)
+        cardEntity.balance == BigDecimal.ZERO
     }
 
     def "deleteById: should delete the card by requested id"() {

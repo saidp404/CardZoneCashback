@@ -26,9 +26,9 @@ public class TransactionService {
 
         validateTransaction(transactionDto, cardEntity);
 
-        var transaction = transactionMapper.transactionDtoToTransactionEntity(transactionDto, cardEntity);
+        var transactionEntity = transactionMapper.transactionDtoToTransactionEntity(transactionDto, cardEntity);
 
-        transactionRepository.save(transaction);
+        transactionRepository.save(transactionEntity);
         changeCurrentBalance(transactionDto, cardEntity);
     }
 

@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
-    @Mapping(target = "cardEntity", source = "cardEntity")
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     TransactionEntity transactionDtoToTransactionEntity(TransactionDto transactionDTO, CardEntity cardEntity);
 }
