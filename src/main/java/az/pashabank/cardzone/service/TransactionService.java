@@ -1,6 +1,8 @@
 package az.pashabank.cardzone.service;
 
+import az.pashabank.cardzone.client.CashbackClient;
 import az.pashabank.cardzone.dao.entity.CardEntity;
+import az.pashabank.cardzone.dao.entity.TransactionEntity;
 import az.pashabank.cardzone.dao.repository.CardRepository;
 import az.pashabank.cardzone.dao.repository.TransactionRepository;
 import az.pashabank.cardzone.mapper.TransactionMapper;
@@ -13,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +25,7 @@ public class TransactionService {
     private final TransactionMapper transactionMapper;
     private final TransactionRepository transactionRepository;
     private final CardRepository cardRepository;
+    private final CashbackClient cashbackClient;
 
     public void create(TransactionDto transactionDto, Long cardId) {
         CardEntity cardEntity = cardRepository.findById(cardId).orElseThrow(() -> new NoCardFoundByIdException("Transaction cannot be made, as the card with id:" + cardId + " does not exist."));
@@ -30,6 +36,22 @@ public class TransactionService {
 
         transactionRepository.save(transactionEntity);
         changeCurrentBalance(transactionDto, cardEntity);
+    }
+
+    public void getAndApplyCashback() {
+        List<TransactionEntity> transactionEntities = getTransactionsWithCashback();
+        for (TransactionEntity transactionEntity : transactionEntities) {
+            System.out.println(cashbackClient.getCashback(transactionEntity.getAmount()).getBody().cashbackAmount());
+            transactionEntity.setHasCashback(false);
+            transactionRepository.save(transactionEntity);
+            create(new TransactionDto(TransactionType.CREDIT, cashbackClient.getCashback(transactionEntity.getAmount()).getBody().cashbackAmount(), false), transactionEntity.getCardEntity().getId());
+        }
+    }
+
+    private List<TransactionEntity> getTransactionsWithCashback(){
+        return transactionRepository.findAll().stream()
+                .filter(transactionEntity -> transactionEntity.isHasCashback() && transactionEntity.getType().equals(TransactionType.DEBIT))
+                .collect(Collectors.toList());
     }
 
     private void changeCurrentBalance(TransactionDto transactionDto, CardEntity cardEntity){
