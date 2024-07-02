@@ -21,10 +21,10 @@ public class CardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 16)
+    @Column(length = 16, unique = true)
     private String pan;
 
-    @Column(name = "customer_id", nullable = false)
+    @Column(name = "customer_id", nullable = false, unique = true)
     private Long customerId;
     private BigDecimal balance;
 
