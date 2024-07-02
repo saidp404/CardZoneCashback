@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 public class ScheduledCashback {
     private final TransactionService transactionService;
 
-//    @Scheduled(cron = "0 0 18 * * ?")
-    @Scheduled(cron = "0 * * ? * *")
+    @Scheduled(cron = "0 0 18 * * ?")
+//    @Scheduled(cron = "0 * * ? * *")
     public void applyCashbacks(){
         transactionService.getAndApplyCashback();
     }
