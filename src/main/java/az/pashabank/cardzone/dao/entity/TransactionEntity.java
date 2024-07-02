@@ -21,7 +21,10 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private TransactionType type;
+
+    @Column(nullable = false)
     private BigDecimal amount;
 
     @ManyToOne

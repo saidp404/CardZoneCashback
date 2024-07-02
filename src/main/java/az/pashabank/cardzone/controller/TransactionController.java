@@ -5,6 +5,7 @@ import az.pashabank.cardzone.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/cards")
@@ -14,7 +15,7 @@ public class TransactionController {
 
     @PostMapping("/{cardId}/transactions")
     @ResponseStatus(HttpStatus.CREATED)
-    public void changeCurrentBalance(@RequestBody TransactionDto transactionDto, @PathVariable Long cardId) {
+    public void changeCurrentBalance(@Valid @RequestBody TransactionDto transactionDto, @PathVariable Long cardId) {
         transactionService.create(transactionDto, cardId);
     }
 }
