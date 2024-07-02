@@ -17,7 +17,11 @@ public class CashbackClient extends RestTemplate {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<CashbackResponseDto> getCashback(BigDecimal transactionAmount) {
-         return restTemplate.getForEntity(baseUrl + transactionAmount, CashbackResponseDto.class);
+//    public ResponseEntity<CashbackResponseDto> getCashback(BigDecimal transactionAmount) {
+//         return restTemplate.getForEntity(baseUrl + transactionAmount, CashbackResponseDto.class);
+//    }
+
+    public BigDecimal getCashback(BigDecimal transactionAmount) {
+        return transactionAmount.multiply(BigDecimal.valueOf(0.02));
     }
 }
