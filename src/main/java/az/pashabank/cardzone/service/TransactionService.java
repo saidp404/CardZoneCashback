@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -41,16 +40,17 @@ public class TransactionService {
     public void getAndApplyCashback() {
         List<TransactionEntity> transactionEntities = getTransactionsWithCashback();
         for (TransactionEntity transactionEntity : transactionEntities) {
-            System.out.println(cashbackClient.getCashback(transactionEntity.getAmount()).getBody().cashbackAmount());
+            BigDecimal cashbackAmount = cashbackClient.getCashback(transactionEntity.getAmount()).getBody().cashbackAmount();
+            System.out.println(cashbackAmount);
             transactionEntity.setHasCashback(false);
             transactionRepository.save(transactionEntity);
-            create(new TransactionDto(TransactionType.CREDIT, cashbackClient.getCashback(transactionEntity.getAmount()).getBody().cashbackAmount(), false), transactionEntity.getCardEntity().getId());
+            create(new TransactionDto(TransactionType.CREDIT, cashbackAmount, false), transactionEntity.getCardEntity().getId());
         }
     }
 
     private List<TransactionEntity> getTransactionsWithCashback(){
         return transactionRepository.findAll().stream()
-                .filter(transactionEntity -> transactionEntity.isHasCashback() && transactionEntity.getType().equals(TransactionType.DEBIT))
+                .filter(TransactionEntity::isHasCashback)
                 .collect(Collectors.toList());
     }
 
