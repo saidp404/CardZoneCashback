@@ -7,6 +7,8 @@ import az.pashabank.cardzone.model.dto.ResponseCardDto;
 import az.pashabank.cardzone.model.exception.NoCardFoundByIdException;
 import az.pashabank.cardzone.model.exception.NotUniquePanException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,6 +19,10 @@ import java.util.List;
 public class CardService {
     private final CardMapper cardMapper;
     private final CardRepository cardRepository;
+
+    public Page<ResponseCardDto> listCards(Pageable pageable) {
+        return cardMapper.toPageDto(cardRepository.findAll(pageable));
+    }
 
     public List<ResponseCardDto> findAll() {
         return cardMapper.cardEntitiesToResponseCardDtos(cardRepository.findAll());
