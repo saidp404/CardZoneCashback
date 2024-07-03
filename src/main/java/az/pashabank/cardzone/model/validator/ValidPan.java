@@ -1,9 +1,9 @@
-package az.pashabank.cardzone.model.validation;
+package az.pashabank.cardzone.model.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class CustomValidator implements ConstraintValidator<CardPanValidity, String> {
+public class ValidPan implements ConstraintValidator<CardPanValidity, String> {
     @Override
     public boolean isValid(String cardNo, ConstraintValidatorContext context) {
         int nDigits = cardNo.length();

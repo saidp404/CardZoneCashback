@@ -1,4 +1,4 @@
-package az.pashabank.cardzone.model.validation;
+package az.pashabank.cardzone.model.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = CustomValidator.class)
+@Constraint(validatedBy = ValidPan.class)
 public @interface CardPanValidity {
-    String message() default "Invalid value";
+    String message() default "Invalid pan";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

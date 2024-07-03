@@ -1,6 +1,6 @@
 package az.pashabank.cardzone.model.dto;
 
-import az.pashabank.cardzone.model.validation.CardPanValidity;
+import az.pashabank.cardzone.model.validator.CardPanValidity;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

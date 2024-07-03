@@ -8,4 +8,6 @@ import java.util.List;
 public interface CardRepository extends CrudRepository<CardEntity, Long> {
     @Override
     List<CardEntity> findAll();
+
+    boolean existsByPan(String pan);
 }

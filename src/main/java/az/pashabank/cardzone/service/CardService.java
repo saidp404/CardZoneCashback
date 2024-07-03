@@ -5,6 +5,7 @@ import az.pashabank.cardzone.mapper.CardMapper;
 import az.pashabank.cardzone.model.dto.CreationCardDto;
 import az.pashabank.cardzone.model.dto.ResponseCardDto;
 import az.pashabank.cardzone.model.exception.NoCardFoundByIdException;
+import az.pashabank.cardzone.model.exception.NotUniquePanException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ public class CardService {
     }
 
     public void create(CreationCardDto creationCardDto) {
+        validateCard(creationCardDto);
+
         ResponseCardDto responseCardDto = new ResponseCardDto(creationCardDto.pan(), creationCardDto.customerId(), BigDecimal.ZERO);
         var card = cardMapper.responseCardDtoToCardEntity(responseCardDto);
         cardRepository.save(card);
@@ -35,5 +38,11 @@ public class CardService {
         cardRepository
                 .findById(cardId)
                 .ifPresent(card -> cardRepository.deleteById(card.getId()));
+    }
+
+    private void validateCard(CreationCardDto creationCardDto) {
+        if (cardRepository.existsByPan(creationCardDto.pan())) {
+            throw new NotUniquePanException("Such card already exists.");
+        }
     }
 }

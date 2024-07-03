@@ -3,7 +3,7 @@ package az.pashabank.cardzone.controller;
 import az.pashabank.cardzone.model.exception.ExcessiveAmountSentException;
 import az.pashabank.cardzone.model.exception.NoCardFoundByIdException;
 import az.pashabank.cardzone.model.exception.NotEnoughBalanceException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import az.pashabank.cardzone.model.exception.NotUniquePanException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,6 +24,11 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(ExcessiveAmountSentException.class)
     public ResponseEntity<?> handleExcessiveAmountSentException(ExcessiveAmountSentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotUniquePanException.class)
+    public ResponseEntity<?> handleNotUniquePanException(NotUniquePanException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

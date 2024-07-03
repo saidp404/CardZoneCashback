@@ -24,7 +24,7 @@ public class CardEntity {
     @Column(length = 16, unique = true)
     private String pan;
 
-    @Column(name = "customer_id", nullable = false, unique = true)
+    @Column(name = "customer_id", nullable = false)
     private Long customerId;
     private BigDecimal balance;
 
