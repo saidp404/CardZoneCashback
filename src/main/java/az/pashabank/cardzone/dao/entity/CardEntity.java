@@ -26,7 +26,7 @@ public class CardEntity {
 
     @Column(name = "customer_id", nullable = false)
     private Long customerId;
-    private BigDecimal balance;
+    private BigDecimal balance = BigDecimal.ZERO;
 
     @Column(name = "created_at")
     @CreationTimestamp

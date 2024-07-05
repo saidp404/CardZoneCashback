@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +53,7 @@ public class TransactionService {
 //        }
 
         // gpt version (I observed that saving all the transactions at the end, saves a lot of time. 57 cashback transactions took 201 ms)
-        List<TransactionEntity> transactionEntities = getTransactionsWithCashback();
+        List<TransactionEntity> transactionEntities = transactionRepository.findByHasCashback(true);;
         List<TransactionEntity> updatedTransactions = new ArrayList<>();
         List<TransactionEntity> newTransactions = new ArrayList<>();
 
@@ -79,12 +78,6 @@ public class TransactionService {
 
         transactionRepository.saveAll(updatedTransactions);
         transactionRepository.saveAll(newTransactions);
-    }
-
-    private List<TransactionEntity> getTransactionsWithCashback(){
-        return transactionRepository.findAll().stream()
-                .filter(TransactionEntity::isHasCashback)
-                .collect(Collectors.toList());
     }
 
     private void changeCurrentBalance(TransactionDto transactionDto, CardEntity cardEntity){

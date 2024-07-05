@@ -8,4 +8,6 @@ import java.util.List;
 public interface TransactionRepository extends CrudRepository<TransactionEntity, Long> {
     @Override
     List<TransactionEntity> findAll();
+
+    List<TransactionEntity> findByHasCashback(boolean hasCashback);
 }

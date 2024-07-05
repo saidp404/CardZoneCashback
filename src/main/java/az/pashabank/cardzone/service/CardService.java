@@ -24,10 +24,6 @@ public class CardService {
         return cardMapper.toPageDto(cardRepository.findAll(pageable));
     }
 
-    public List<ResponseCardDto> findAll() {
-        return cardMapper.cardEntitiesToResponseCardDtos(cardRepository.findAll());
-    }
-
     public ResponseCardDto findById(Long cardId) {
         return cardMapper.cardEntityToResponseCardDto(cardRepository.findById(cardId).orElseThrow(() -> new NoCardFoundByIdException("Card by id:" + cardId + " does not exist.")));
     }
@@ -35,8 +31,7 @@ public class CardService {
     public void create(CreationCardDto creationCardDto) {
         validateCard(creationCardDto);
 
-        ResponseCardDto responseCardDto = new ResponseCardDto(creationCardDto.pan(), creationCardDto.customerId(), BigDecimal.ZERO);
-        var card = cardMapper.responseCardDtoToCardEntity(responseCardDto);
+        var card = cardMapper.creationCardDtoToCardEntity(creationCardDto);
         cardRepository.save(card);
     }
 

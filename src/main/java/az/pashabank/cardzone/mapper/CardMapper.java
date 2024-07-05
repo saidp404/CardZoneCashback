@@ -1,6 +1,7 @@
 package az.pashabank.cardzone.mapper;
 
 import az.pashabank.cardzone.dao.entity.CardEntity;
+import az.pashabank.cardzone.model.dto.CreationCardDto;
 import az.pashabank.cardzone.model.dto.ResponseCardDto;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface CardMapper {
     ResponseCardDto cardEntityToResponseCardDto(CardEntity cardEntity);
 
-    CardEntity responseCardDtoToCardEntity(ResponseCardDto responseCardDto);
+    CardEntity creationCardDtoToCardEntity(CreationCardDto creationCardDto);
 
     List<ResponseCardDto> cardEntitiesToResponseCardDtos(List<CardEntity> cardEntities);
 
