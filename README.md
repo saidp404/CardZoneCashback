@@ -10,4 +10,4 @@
   - for MacOS / Linux `./gradlew bootRun`
   - for Windows `gradlew.bat bootRun`
 
-Swagger Documentation: https://localhost:8443/swagger-ui/index.html
+Swagger Documentation: http://localhost:8443/swagger-ui/index.html
