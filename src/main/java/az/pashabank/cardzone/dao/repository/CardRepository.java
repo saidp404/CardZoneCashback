@@ -10,8 +10,6 @@ public interface CardRepository extends PagingAndSortingRepository<CardEntity, L
     @Override
     List<CardEntity> findAll();
 
-//    List<CardEntity> findByCustomerId(Long customerId);
-
     boolean existsByPan(String pan);
 
     boolean existsByCustomerId(Long customerId);
