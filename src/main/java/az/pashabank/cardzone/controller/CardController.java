@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 @RequestMapping("/cards")
@@ -21,17 +20,12 @@ public class CardController {
     private final CardService cardService;
 
     @GetMapping()
-    public Page<ResponseCardDto> listCards(@PageableDefault(size = 5) Pageable pageable){
-        return cardService.listCards(pageable);
+    public Page<ResponseCardDto> listCards(@PageableDefault(size = 5) Pageable pageable,
+                                           @RequestParam(required = false) Long customerId,
+                                           @RequestParam(required = false, defaultValue = "0") BigDecimal minBalance,
+                                           @RequestParam(required = false, defaultValue = "9999999999") BigDecimal maxBalance){
+        return cardService.listCards(pageable, customerId, minBalance, maxBalance);
     }
-
-//    @GetMapping()
-//    public List<ResponseCardDto> listCards(
-//            @RequestParam(required = false) Long customerId,
-//            @RequestParam(required = false) BigDecimal minBalance,
-//            @RequestParam(required = false) BigDecimal maxBalance){
-//        return cardService.findAll();
-//    }
 
     @GetMapping("/{cardId}")
     public ResponseCardDto findById(@PathVariable Long cardId) {

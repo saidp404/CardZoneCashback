@@ -13,4 +13,6 @@ public interface CardRepository extends PagingAndSortingRepository<CardEntity, L
 //    List<CardEntity> findByCustomerId(Long customerId);
 
     boolean existsByPan(String pan);
+
+    boolean existsByCustomerId(Long customerId);
 }
