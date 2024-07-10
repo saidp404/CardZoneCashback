@@ -11,3 +11,5 @@
   - for Windows `gradlew.bat bootRun`
 
 Swagger Documentation: http://localhost:8443/swagger-ui/index.html
+
+Commands for building in docker: `docker-compose up --build`
