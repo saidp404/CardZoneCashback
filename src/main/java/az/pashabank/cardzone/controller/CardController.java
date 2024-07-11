@@ -1,13 +1,12 @@
 package az.pashabank.cardzone.controller;
 
+import az.pashabank.cardzone.model.dto.CardFilterDto;
 import az.pashabank.cardzone.model.dto.CreationCardDto;
 import az.pashabank.cardzone.model.dto.ResponseCardDto;
 import az.pashabank.cardzone.service.CardService;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/cards")
@@ -30,11 +28,8 @@ public class CardController {
             @ApiResponse(responseCode = "404", description = "Not found - The cards were not found")
     })
     @GetMapping()
-    public Page<ResponseCardDto> listCards(@PageableDefault(size = 5) Pageable pageable,
-                                           @RequestParam(required = false) Long customerId,
-                                           @RequestParam(required = false, defaultValue = "0") BigDecimal minBalance,
-                                           @RequestParam(required = false, defaultValue = "9999999999") BigDecimal maxBalance){
-        return cardService.listCards(pageable, customerId, minBalance, maxBalance);
+    public Page<ResponseCardDto> listCards(@PageableDefault(size = 5) Pageable pageable, @ModelAttribute CardFilterDto cardFilterDto) {
+        return cardService.listCards(pageable, cardFilterDto);
     }
 
     @Operation(summary = "Get a card by id", description = "Returns a card as per the id")

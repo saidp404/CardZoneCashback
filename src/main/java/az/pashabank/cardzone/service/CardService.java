@@ -3,6 +3,7 @@ package az.pashabank.cardzone.service;
 import az.pashabank.cardzone.dao.entity.CardEntity;
 import az.pashabank.cardzone.dao.repository.CardRepository;
 import az.pashabank.cardzone.mapper.CardMapper;
+import az.pashabank.cardzone.model.dto.CardFilterDto;
 import az.pashabank.cardzone.model.dto.CreationCardDto;
 import az.pashabank.cardzone.model.dto.ResponseCardDto;
 import az.pashabank.cardzone.model.exception.NoCardFoundByIdException;
@@ -14,21 +15,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-
 @Service
 @RequiredArgsConstructor
 public class CardService {
     private final CardMapper cardMapper;
     private final CardRepository cardRepository;
 
-    public Page<ResponseCardDto> listCards(Pageable pageable, Long customerId, BigDecimal minBalance, BigDecimal maxBalance) {
-        Specification<CardEntity> specification = Specification.where(CardSpecifications.filterByBalanceRange(minBalance, maxBalance));
-        if (customerId == null || !(cardRepository.existsByCustomerId(customerId))) {
-            return cardMapper.toPageDto(cardRepository.findAll(specification, pageable));
-        }
-
-        specification = specification.and(CardSpecifications.filterByCustomerId(customerId));
+    public Page<ResponseCardDto> listCards(Pageable pageable, CardFilterDto cardFilterDto) {
+        Specification<CardEntity> specification = CardSpecifications.getSpecification(cardFilterDto);
         return cardMapper.toPageDto(cardRepository.findAll(specification, pageable));
     }
 

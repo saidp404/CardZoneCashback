@@ -11,14 +11,14 @@ import java.math.BigDecimal;
 @Component
 public class CashbackClient extends RestTemplate {
     private final RestTemplate restTemplate;
-    private final String baseUrl = "https://cardzone-cashback-api-c2f5b8105e2b.herokuapp.com/api/cashback?transactionAmount=";
+//    private final String baseUrl = "https://cardzone-cashback-api-c2f5b8105e2b.herokuapp.com";
 
     public CashbackClient(@Lazy RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
 //    public ResponseEntity<CashbackResponseDto> getCashback(BigDecimal transactionAmount) {
-//         return restTemplate.getForEntity(baseUrl + transactionAmount, CashbackResponseDto.class);
+//         return restTemplate.getForEntity(baseUrl + "/api/cashback?transactionAmount=" + transactionAmount, CashbackResponseDto.class);
 //    }
 
     public BigDecimal getCashback(BigDecimal transactionAmount) {
