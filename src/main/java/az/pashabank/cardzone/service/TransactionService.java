@@ -38,46 +38,35 @@ public class TransactionService {
     }
 
     public void getAndApplyCashback() {
-        // my version (56 cashback transactions, the whole operation took 587 ms)
-//        List<TransactionEntity> transactionEntities = getTransactionsWithCashback();
-
-//        for (TransactionEntity transactionEntity : transactionEntities) {
-////            BigDecimal cashbackAmount = cashbackClient.getCashback(transactionEntity.getAmount()).getBody().cashbackAmount();
-//            BigDecimal cashbackAmount = cashbackClient.getCashback(transactionEntity.getAmount());
-//            System.out.println(cashbackAmount);
-
-//            transactionEntity.setHasCashback(false);
-//            transactionRepository.save(transactionEntity);
-
-//            create(new TransactionDto(TransactionType.CREDIT, cashbackAmount, false), transactionEntity.getCardEntity().getId());
-//        }
-
-        // gpt version (I observed that saving all the transactions at the end, saves a lot of time. 57 cashback transactions took 201 ms)
         List<TransactionEntity> transactionEntities = transactionRepository.findByHasCashback(true);;
-        List<TransactionEntity> updatedTransactions = new ArrayList<>();
         List<TransactionEntity> newTransactions = new ArrayList<>();
 
-        for (TransactionEntity transactionEntity : transactionEntities) {
+        int from = 0;
+        int to = 0;
+
+        while (transactionEntities.size() >= to) {
+            to += 50;
+            for (TransactionEntity transactionEntity : transactionEntities.subList(from, Math.min(to, transactionEntities.size()))) {
 //            BigDecimal cashbackAmount = cashbackClient.getCashback(transactionEntity.getAmount()).getBody().cashbackAmount();
-            BigDecimal cashbackAmount = cashbackClient.getCashback(transactionEntity.getAmount());
-            System.out.println(cashbackAmount);
+                BigDecimal cashbackAmount = cashbackClient.getCashback(transactionEntity.getAmount());
+                System.out.println(cashbackAmount);
 
-            transactionEntity.setHasCashback(false);
-            updatedTransactions.add(transactionEntity);
+                transactionEntity.setHasCashback(false);
+                newTransactions.add(transactionEntity);
 
-            TransactionDto temporaryTransactionDto = new TransactionDto(TransactionType.CREDIT, cashbackAmount, false);
+                TransactionEntity cashbackTransaction = transactionMapper.transactionDtoToTransactionEntity(
+                        new TransactionDto(TransactionType.CREDIT, cashbackAmount, false),
+                        transactionEntity.getCardEntity()
+                );
+                newTransactions.add(cashbackTransaction);
 
-            TransactionEntity cashbackTransaction = transactionMapper.transactionDtoToTransactionEntity(
-                    temporaryTransactionDto,
-                    transactionEntity.getCardEntity()
-            );
-            newTransactions.add(cashbackTransaction);
+                changeCurrentBalance(new TransactionDto(TransactionType.CREDIT, cashbackAmount, false), transactionEntity.getCardEntity());
+            }
 
-            changeCurrentBalance(temporaryTransactionDto, transactionEntity.getCardEntity());
+            transactionRepository.saveAll(newTransactions);
+            newTransactions.clear();
+            from += 50;
         }
-
-        transactionRepository.saveAll(updatedTransactions);
-        transactionRepository.saveAll(newTransactions);
     }
 
     private void changeCurrentBalance(TransactionDto transactionDto, CardEntity cardEntity){
